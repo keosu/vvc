@@ -1,0 +1,54 @@
+name: Generate Android Development APK
+
+on:
+  push: 
+    tags:
+      - 'v*'  
+
+jobs:
+  prepare_tools:
+    name: Prepare tools to generate the APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code from the current repository
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: 
+          distribution: 'zulu'
+          java-version: 16
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install app dependencies
+        run: npm install && npm run build
+
+      - name: Convert Windows line endings to Linux from the gradlew file
+        run: sudo apt update && sudo apt install dos2unix && cd android && dos2unix ./gradlew && cd ..
+
+      - name: Make ./gradlew command executable
+        run: cd android && chmod +x ./gradlew && cd .. 
+
+      - name: Sync Capacitor Android platform
+        run: npx cap sync android
+
+      - name: Generate APK
+        run: cd android && ./gradlew assembleDebug && cd ..
+
+      - name: Upload generated APK to Github
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-dev
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "android/app/build/outputs/apk/*/*.apk" 
+          token: ${{ github.token }}
+          generateReleaseNotes: true
