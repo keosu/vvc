@@ -5,10 +5,10 @@ const config: CapacitorConfig = {
   webDir: "dist",
   appName: "vue3-app",
   bundledWebRuntime: false,
-  server: {
+  server: process.env.ENV === 'development' ? {
     url: "http://localhost:3000",
     cleartext: true,
-  },
+  } : {},
   ios: {
     allowsLinkPreview: false,
   },
