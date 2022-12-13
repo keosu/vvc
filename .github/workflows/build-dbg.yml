@@ -33,8 +33,10 @@ jobs:
       - name: Make ./gradlew command executable
         run: cd android && chmod +x ./gradlew && cd ..
 
-      - name: Build Ionic assets
-        run: ionic build --prod
+      # - name: Build Ionic assets
+      #   run: ionic build --prod
+      - name: build
+        run: npx cap build android
 
       - name: Copy generated assets from Ionic to Capacitor Android platform
         run: npx cap copy android && npx cap update android
