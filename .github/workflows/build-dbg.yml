@@ -1,6 +1,7 @@
 name: Generate Android Development APK
 
 on: [push, pull_request]
+  
 
 jobs:
   prepare_tools:
@@ -55,5 +56,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "*.apk"
+          tag: v0.0.1
           token: ${{ github.token }}
           generateReleaseNotes: true
