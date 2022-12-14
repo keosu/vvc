@@ -1,7 +1,9 @@
 name: Generate Android Development APK
 
-on: [push, pull_request]
-  
+on:
+  push: 
+    tags:
+      - 'v*'  
 
 jobs:
   prepare_tools:
@@ -23,9 +25,6 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
 
-      - name: Install Ionic
-        run: npm install -g @ionic/cli
-
       - name: Install app dependencies
         run: npm install && npm run build
 
@@ -33,15 +32,10 @@ jobs:
         run: sudo apt update && sudo apt install dos2unix && cd android && dos2unix ./gradlew && cd ..
 
       - name: Make ./gradlew command executable
-        run: cd android && chmod +x ./gradlew && cd ..
+        run: cd android && chmod +x ./gradlew && cd .. 
 
-      # - name: Build Ionic assets
-      #   run: ionic build --prod
-      # - name: build
-      #   run: npx cap build android
-
-      - name: Copy generated assets from Ionic to Capacitor Android platform
-        run: npx cap copy android && npx cap update android
+      - name: Sync Capacitor Android platform
+        run: npx cap sync android
 
       - name: Generate APK
         run: cd android && ./gradlew assembleDebug && cd ..
@@ -55,7 +49,6 @@ jobs:
       - name: release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "android/app/build/outputs/apk/*/*.apk"
-          tag: v0.0.3
+          artifacts: "android/app/build/outputs/apk/*/*.apk" 
           token: ${{ github.token }}
           generateReleaseNotes: true
