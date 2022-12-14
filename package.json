@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor-community/electron": "^4.1.2",
     "@capacitor/android": "^4.2.0",
     "@capacitor/app": "4.1.1",
     "@capacitor/browser": "^4.0.1",
