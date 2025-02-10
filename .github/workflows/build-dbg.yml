@@ -17,10 +17,10 @@ jobs:
         uses: actions/setup-java@v2
         with: 
           distribution: 'zulu'
-          java-version: 16
+          java-version: 19
 
       - name: Install Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v3
 
       - name: Install Node.js
         uses: actions/setup-node@v3
