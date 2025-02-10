@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get code from the current repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Java
         uses: actions/setup-java@v2
@@ -41,7 +41,7 @@ jobs:
         run: cd android && ./gradlew assembleDebug && cd ..
 
       - name: Upload generated APK to Github
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: app-dev
           path: android/app/build/outputs/apk/debug/app-debug.apk
