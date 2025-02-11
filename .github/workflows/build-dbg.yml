@@ -1,9 +1,11 @@
 name: Generate Android Development APK
 
 on:
-  push: 
-    tags:
-      - 'v*'  
+  # push: 
+  #   tags:
+  #     - 'v*'  
+  push:
+    branches: ["main"]
 
 jobs:
   prepare_tools:
