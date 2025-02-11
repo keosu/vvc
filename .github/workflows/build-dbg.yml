@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v2
         with: 
           distribution: 'zulu'
-          java-version: 19
+          java-version: 21
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
@@ -27,8 +27,13 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Install app dependencies
-        run: npm install pnpm && pnpm i && pnpm run build
+        run: pnpm install && pnpm run build
 
       - name: Convert Windows line endings to Linux from the gradlew file
         run: sudo apt update && sudo apt install dos2unix && cd android && dos2unix ./gradlew && cd ..
